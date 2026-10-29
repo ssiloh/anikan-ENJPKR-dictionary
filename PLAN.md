@@ -23,10 +23,22 @@
 | 원본 | 형식 | 언어 | 단위·주요 필드 | 라이선스 | 받는 법 |
 |---|---|---|---|---|---|
 | [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html) (EDRDG) | XML(DTD 포함), 일일 갱신 | 일 → 영(+독·네·러·스·헝·스웨·프·슬로) | `entry/ent_seq` → `k_ele/keb`(한자 표기, `ke_pri` 빈도) · `r_ele/reb`(읽기) · `sense`(`pos`·`xref`·`misc`·`gloss xml:lang`) | CC BY-SA 4.0 + EDRDG 표기 조건 | `https://www.edrdg.org/pub/Nihongo/JMdict.gz` (영어 외 언어 뜻은 별도 sense로 붙음, **한국어 없음**) |
-| 한국어기초사전 (국립국어원) | JSON(LMF), 「사전 전체 내려받기」 zip | 한 → 한 + **11개 언어 대역(영어·일본어 포함)** | `LexicalResource.Lexicon.LexicalEntry[]` → `feat`(`lexicalUnit`, `partOfSpeech`, `vocabularyLevel`, **`origin` = 원어·한자**) · `Lemma`(`writtenForm`, 이표기) · `Sense[]`(`definition`, `Equivalent[]` = `language`·`lemma`·`definition`) | CC BY-SA 2.0 KR | [krdict.korean.go.kr](https://krdict.korean.go.kr) 회원 로그인 후 내려받기 → **자동 다운로드 불가**, `raw/`에 직접 넣음 |
+| 한국어기초사전 (국립국어원) | JSON(LMF), 「사전 전체 내려받기」 zip(84 MB, 풀면 1 GB, JSON 11개) | 한 → 한 + **11개 언어 대역(영어·일본어 포함)** | `LexicalResource.Lexicon.LexicalEntry[]` → `feat`(`lexicalUnit`, `homonym_number`, `partOfSpeech`, `vocabularyLevel`, `semanticCategory`, **`origin` = 원어·한자**) · `Lemma`(`writtenForm`, 이표기) · `WordForm`(발음) · `RelatedForm`(파생어 등) · `Sense[]`(`definition`, `Equivalent[]` = `language`·`lemma`·`definition`, `SenseExample`, `SenseRelation`). §2.1 | CC BY-SA 2.0 KR | 로그인 없이 받음: 내려받기 창(`/download/downloadPopup`)의 JSON 버튼 → `https://krdict.korean.go.kr/dicBatchDownload?seq=220`(2026-10-19판, seq는 판마다 바뀌므로 창에서 읽음) |
 | [EJDict-hand](https://github.com/kujirahand/EJDict) | TSV(`src/a.txt`…`z.txt`) + `frequency/` | 영 → 일 | 한 줄 = `표제어(쉼표로 이표기) ⇥ 뜻(" / "로 구분)`. 뜻 안에 `〈C〉` `《米》` `『』` 같은 표시. 품사·ID 없음 | **CC0** | git(커밋 고정) |
 | [Princeton WordNet 3.0](https://wordnet.princeton.edu/) | `WNdb-3.0` 텍스트 DB | 영 | `data.{noun,verb,adj,adv}` 한 줄 = synset(`오프셋 · 품사 · 단어들 · 관계 포인터 \| 풀이`), `index.*` = 표제어 → synset 오프셋(빈도순) | WordNet License(무료·수정·배포 허용, 저작권·면책 고지를 모든 사본에 포함) | `https://wordnetcode.princeton.edu/3.0/WNdb-3.0.tar.gz` (10 MB). 압축 파일에 라이선스 원문이 없어 웹 원문을 따로 넣음 |
 | [kaikki.org](https://kaikki.org) (wiktextract, 영어 Wiktionary) | JSONL | 언어별 표제어 + 영어 풀이, **영어 표제어의 번역표** | `word`·`pos`·`forms`(일본어: 루비·로마자, 한국어: **`hanja` 태그 표기**)·`senses[].glosses`·`etymology_text`·`sounds`. 번역표 `translations[]` = `{sense(영어 뜻 설명), code, word, roman, alt(한국어 한자)}` | Wiktionary: CC BY-SA 4.0 (+GFDL 이중) | 일본어 388 MB · 한국어 208 MB · **영어 3.4 GB**(번역표 용, 2026-10-25판). 영어는 받으면서 `ja`·`ko` 번역이 있는 줄만 거름 |
+
+### 2.1 한국어기초사전 전체 분석 (2026-10-19판을 받아 전부 셈)
+
+| 항목 | 값 |
+|---|---|
+| 표제어 | 56,555개 — 단어 51,555 · 관용구 2,227 · 구 1,120 · 문법·표현 996 · 속담 657 |
+| 뜻(Sense) | 76,833개 |
+| 대역어 | 11개 언어(중·영·일·불·아랍·베트남·스페인·몽골·타이·러시아·인니), **일본어 대역이 있는 뜻 75,144개, 영어 75,145개(97.8 %)**. 대역어마다 그 언어의 뜻풀이(`definition`)도 있음 |
+| 일본어 대역어 형식 | `かかくひょう【価格表】` = **읽기【한자 표기】** → JMdict의 reb·keb로 바로 찾을 수 있음 |
+| 원어(`origin`) | 36,151개 표제어, 그중 한자가 들어간 것 34,147개(예: 학교 → 學校) |
+| 뜻 관계(`SenseRelation`) | 유의어 14,374 · 참고어 10,445 · **반대말 2,802** · 작은말 1,286 · 큰말 1,211 · 여린말 695 · 준말 669 · 본말 639 · 센말 560 · 높임말 93 · 낮춤말 17. 각각 대상 표제어 `id`·`lemma`·`homonymNumber` |
+| 표제어 관계(`RelatedForm`) | 파생어 13,166 · ☞(가 보라) 9,889 |
 
 ## 3. 통합 데이터 모델
 
@@ -109,7 +121,7 @@ CREATE TABLE relation (
 | 원본 | lexeme | sense | 바로 나오는 link |
 |---|---|---|---|
 | JMdict | `entry` 하나에 `keb`·`reb` 조합마다(대표는 첫 keb+reb) | `sense` (영어 gloss만, 다른 언어 sense는 버리거나 별도 보관) | 일 sense → 영어 gloss 문자열 |
-| 한국어기초사전 | `LexicalEntry` (`lexicalUnit`이 단어·구) | `Sense` (한국어 `definition`) | 한 sense → 영어·일본어 `Equivalent` |
+| 한국어기초사전 | `LexicalEntry` (단어·구·관용구·속담·문법 표현) | `Sense` (한국어 `definition`) | 한 sense → 영어·일본어 `Equivalent`(일본어는 `읽기【한자】`를 갈라 JMdict 표제어로) |
 | EJDict-hand | 줄의 표제어(이표기 각각) | 줄 하나 = 뜻 하나(" / " 조각은 대역어 목록) | 영 → 일 대역어 |
 | WordNet | `index.*`의 표제어 | synset 소속 하나 = 뜻 하나 | 영 sense → concept |
 | kaikki | 언어별 파일의 `word`+`pos`(+`etymology_number`) | `senses[]` | 일·한 sense → 영어 gloss / 영어 번역표 → 일·한 단어 |
@@ -141,12 +153,12 @@ CREATE TABLE relation (
 
 ### 4.1 반의어·유의어 등 의미 관계
 
-대역어(다른 언어로의 연결)는 위 `link`, 같은 언어 안의 관계는 `relation`에 둔다. 원본별로 있는 것(2026-10-29 표본 확인):
+대역어(다른 언어로의 연결)는 위 `link`, 같은 언어 안의 관계는 `relation`에 둔다. 원본별로 있는 것(2026-10-29 확인, 한국어기초사전은 전체, 나머지는 표본):
 
 | 원본 | 반의어 | 유의어·기타 | 단위 | 표본에서 확인한 양 |
 |---|---|---|---|---|
 | JMdict | `sense/ant` | `sense/xref`(참조·유의) | 뜻 → 「단어・뜻번호」(예: `インナー・1`) | 앞 6 MB에서 ant 39 · xref 1,347 |
-| 한국어기초사전 | 「반대말」 | 「비슷한말」「참고어」「높임말」「낮춤말」 등 | 뜻 단위 관계 목록 | **원본을 받은 뒤 필드 이름·양 확인**(로그인 필요해 아직 미확인) |
+| 한국어기초사전 | `SenseRelation` 「반대말」 | 유의어·참고어·작은말/큰말·준말/본말·높임말/낮춤말, `RelatedForm` 파생어 | 뜻 → 표제어(`id`·`homonymNumber`) | **반대말 2,802 · 유의어 14,374 · 참고어 10,445**(전체, §2.1) |
 | WordNet 3.0 | 포인터 `!` | 같은 synset = 유의어, `&`(유사 형용사)·`@`(상위어)… | 단어(lemma) 단위 | 반의어 포인터 7,979개(형용사 4,024 · 명사 2,152 · 동사 1,093 · 부사 710) |
 | kaikki | `antonyms` | `synonyms`·`related`·`derived` | 표제어 또는 뜻 단위 | 일본어 앞 870개에서 반의어 55 · 유의어 484, 한국어 앞 1,765개(대부분 한자 표제)에서 반의어 5 |
 | EJDict-hand | 없음 | 없음 | — | — |
@@ -187,7 +199,7 @@ CREATE TABLE relation (
 anikan-ENJPKR-dictionary/
 ├─ PLAN.md · README.md · ATTRIBUTION.md · LICENSE(MIT, 코드) · LICENSES/(원본 라이선스 원문, 데이터는 CC-BY-SA-4.0)
 ├─ sources.toml          # 원본 버전·주소·체크섬 고정
-├─ raw/                  # 받은 원본(.gitignore). 한국어기초사전 zip은 여기에 직접
+├─ raw/                  # 받은 원본(.gitignore)
 ├─ anikan/               # 파이썬 패키지
 │  ├─ fetch/             # 원본별 받기(영어 kaikki는 스트림 필터)
 │  ├─ parse/             # 원본별 → 공통 중간 JSONL
@@ -225,6 +237,6 @@ anikan-ENJPKR-dictionary/
 | 2 | 코드 라이선스 | MIT | Apache-2.0 |
 | 3 | 영어 kaikki 3.4 GB 처리 | 받으면서 거르기(번역표만, 수십 MB로 줄어듦) | 영어 번역표는 쓰지 않고 일·한 파일만 |
 | 4 | 결과 배포 | GitHub Releases (git에는 코드만) | Hugging Face Datasets 동시 게시 |
-| 5 | 한국어기초사전 원본 | 사람이 내려받아 `raw/`에 넣음(로그인 필요) | 공식 Open API는 대량 수집에 맞지 않아 비추천 |
+| 5 | 한국어기초사전 원본 | 내려받기 창에서 최신 JSON 버튼의 `seq`를 읽어 자동으로 받음(로그인 불필요, 2026-10-29 확인) | 공식 Open API는 대량 수집에 맞지 않아 비추천 |
 | 6 | WordNet 판 | 요청대로 Princeton 3.0 (다른 언어 WordNet들이 이 판에 연결됨) | Open English WordNet 2024 |
 | 7 | 이름 표기 | 리포 `anikan-ENJPKR-dictionary`, 데이터셋 이름 「anikan」 | — |
