@@ -92,6 +92,16 @@ CREATE TABLE link (
   evidence    TEXT,               -- 사람이 읽을 근거(어떤 영어 뜻, 어떤 한자)
   sources     TEXT NOT NULL       -- JSON: 이 줄에 쓰인 원본 목록(크레딧 계산용)
 );
+
+-- 같은 언어 안의 의미 관계: 반의어·유의어 등(§4.1)
+CREATE TABLE relation (
+  src         TEXT NOT NULL,      -- sense id (원본이 단어 단위면 lexeme id)
+  dst         TEXT NOT NULL,      -- sense id | lexeme id
+  type        TEXT NOT NULL,      -- 'antonym' | 'synonym' | 'see_also' | 'honorific' | 'humble' …
+  method      TEXT NOT NULL,      -- 'source'(원본에 있음) | 'projected'(다른 언어에서 옮김, §4.1)
+  confidence  REAL NOT NULL,
+  sources     TEXT NOT NULL
+);
 ```
 
 ### 3.2 원본 → 모델 대응
@@ -128,6 +138,22 @@ CREATE TABLE link (
 - 방법 3의 함정: 같은 한자어라도 뜻이 다른 말(예: 일본어 「勉強」 = 공부, 한국어 「면강(勉強)」 = 억지로 시킴)은 영어 겹침 검사로 걸러 낮은 신뢰도로 둔다.
 - 방법 4·5의 함정: 영어 다의어(bank, run)는 한 단어가 여러 synset에 떨어진다. WordNet 빈도순·품사 일치·풀이 단어 겹침으로 점수를 매기고, 0.5 미만은 기본 내보내기에서 뺀다.
 - 일본어 쪽 표기 해소: 기초사전·kaikki의 일본어 대역어는 한자일 수도, 가나일 수도 있으므로 JMdict의 keb·reb로 찾아 표제어 ID에 붙인다. 못 찾으면 `ja:unlinked:` 표제어로 남긴다.
+
+### 4.1 반의어·유의어 등 의미 관계
+
+대역어(다른 언어로의 연결)는 위 `link`, 같은 언어 안의 관계는 `relation`에 둔다. 원본별로 있는 것(2026-10-29 표본 확인):
+
+| 원본 | 반의어 | 유의어·기타 | 단위 | 표본에서 확인한 양 |
+|---|---|---|---|---|
+| JMdict | `sense/ant` | `sense/xref`(참조·유의) | 뜻 → 「단어・뜻번호」(예: `インナー・1`) | 앞 6 MB에서 ant 39 · xref 1,347 |
+| 한국어기초사전 | 「반대말」 | 「비슷한말」「참고어」「높임말」「낮춤말」 등 | 뜻 단위 관계 목록 | **원본을 받은 뒤 필드 이름·양 확인**(로그인 필요해 아직 미확인) |
+| WordNet 3.0 | 포인터 `!` | 같은 synset = 유의어, `&`(유사 형용사)·`@`(상위어)… | 단어(lemma) 단위 | 반의어 포인터 7,979개(형용사 4,024 · 명사 2,152 · 동사 1,093 · 부사 710) |
+| kaikki | `antonyms` | `synonyms`·`related`·`derived` | 표제어 또는 뜻 단위 | 일본어 앞 870개에서 반의어 55 · 유의어 484, 한국어 앞 1,765개(대부분 한자 표제)에서 반의어 5 |
+| EJDict-hand | 없음 | 없음 | — | — |
+
+- **원본에 있는 관계**(`method = 'source'`, 신뢰도 0.9): 대상 단어 문자열을 같은 원본의 표제어·뜻 ID로 풀어 저장한다(JMdict의 「・뜻번호」는 그 뜻으로, 기초사전·kaikki는 표기로 찾고 여럿이면 품사로 고름).
+- **다른 언어로 옮기기**(`method = 'projected'`): 한 언어에서 A ↔ B가 반의어이고, 다른 언어의 A′·B′가 각각 A·B의 대역(신뢰도 0.7 이상)이면 A′ ↔ B′를 반의어 후보로 둔다. 신뢰도 = 반의어 신뢰도 × 두 대역 신뢰도의 곱. 예: WordNet `hot ! cold` + 일본어 「暑い ↔ hot」「寒い ↔ cold」 → 「暑い ↔ 寒い」. 원본에 이미 있으면 근거만 더한다.
+- 결과물: `pairs/*.jsonl` 각 뜻에 `antonyms`·`synonyms` 목록(같은 언어), `relations/{en,ja,ko}.tsv`(신뢰도 0.7 이상).
 
 ## 5. 결과물
 
@@ -182,8 +208,9 @@ anikan-ENJPKR-dictionary/
 3. **2단계 — 직접 연결(방법 1·2)**: 기초사전 대역어, JMdict gloss, EJDict, kaikki 번역표·삼각 연결. 완료 기준: 6개 언어쌍 JSONL 첫판, `stats.md`.
 4. **3단계 — 한자 일치(방법 3)**: 신자체↔번체 대응표, 거짓 친구 걸러내기. 완료 기준: gold 300쌍에서 정밀도 측정, 0.85 이상 구간 정밀도 95 % 이상 목표.
 5. **4단계 — WordNet 축(방법 4·5)**: 각 언어 sense → synset, 영어 경유 한·일. 완료 기준: gold에서 방법별 정밀도·재현율 표.
-6. **5단계 — 내보내기와 첫 릴리스**: SQLite·JSONL·TSV, `ATTRIBUTION.md`, GitHub Release `2026.11.0`.
-7. **이후 확장 후보**: Japanese WordNet(wnja, WordNet 3.0 synset에 직접 연결돼 4·5단계 정밀도를 크게 올림), Open English WordNet(갱신되는 후속판, CC BY 4.0), Tatoeba 예문, Yomitan·Anki용 내보내기.
+6. **4.5단계 — 반의어·유의어(§4.1)**: 원본 관계를 ID로 풀고, 대역을 따라 다른 언어로 옮김. 완료 기준: 언어별 반의어 쌍 수, 옮긴 반의어 표본 100쌍 정밀도.
+7. **5단계 — 내보내기와 첫 릴리스**: SQLite·JSONL·TSV, `ATTRIBUTION.md`, GitHub Release `2026.11.0`.
+8. **이후 확장 후보**: Japanese WordNet(wnja, WordNet 3.0 synset에 직접 연결돼 4·5단계 정밀도를 크게 올림), Open English WordNet(갱신되는 후속판, CC BY 4.0), Tatoeba 예문, Yomitan·Anki용 내보내기.
 
 ## 9. 품질 검증
 - **gold 세트**: 일↔한 300쌍, 영↔일 100쌍, 영↔한 100쌍을 무작위로 뽑아 사람이 맞음·틀림·애매로 표시(`qa/gold.tsv`). 방법·신뢰도 구간별 정밀도를 `stats.md`에.
