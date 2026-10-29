@@ -1,0 +1,30 @@
+# 원본 버전·주소 고정 (2026-10-29 확인)
+[jmdict]
+url = "https://www.edrdg.org/pub/Nihongo/JMdict.gz"
+file = "raw/jmdict/JMdict.gz"
+
+[wordnet]
+url = "https://wordnetcode.princeton.edu/3.0/WNdb-3.0.tar.gz"
+license_url = "https://wordnetcode.princeton.edu/3.0/WordNet-3.0.tar.gz"
+file = "raw/wordnet/WNdb-3.0.tar.gz"
+
+[ejdict]
+url = "https://github.com/kujirahand/EJDict.git"
+commit = "2dd9e71"
+dir = "raw/ejdict/repo"
+
+[kaikki_ja]
+url = "https://kaikki.org/dictionary/Japanese/kaikki.org-dictionary-Japanese.jsonl"
+file = "raw/kaikki/ja.jsonl"
+
+[kaikki_ko]
+url = "https://kaikki.org/dictionary/Korean/kaikki.org-dictionary-Korean.jsonl"
+file = "raw/kaikki/ko.jsonl"
+
+[kaikki_en]
+url = "https://kaikki.org/dictionary/English/kaikki.org-dictionary-English.jsonl"
+file = "raw/kaikki/en.filtered.jsonl"   # 받으면서 일·한 번역이 있는 항목만 남김
+
+[krdict]
+# 로그인 없이 받는 JSON zip (내려받기 창 → JSON). seq는 판마다 바뀜.
+dir = "raw/krdict"

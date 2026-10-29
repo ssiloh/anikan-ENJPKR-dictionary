@@ -1,0 +1,56 @@
+# source	raw(misc/tag/표시)	common register
+jmdict	hon	honorific
+jmdict	hum	humble
+jmdict	pol	polite
+jmdict	col	informal
+jmdict	fam	informal
+jmdict	arch	archaic
+jmdict	obs	archaic
+jmdict	dated	dated
+jmdict	poet	literary
+jmdict	form	literary
+jmdict	sl	slang
+jmdict	net-sl	slang
+jmdict	m-sl	slang
+jmdict	vulg	vulgar
+jmdict	derog	derogatory
+jmdict	euph	euphemistic
+jmdict	joc	humorous
+jmdict	fem	feminine
+jmdict	male	masculine
+jmdict	chn	childish
+jmdict	sens	sensitive
+jmdict	rare	rare
+kaikki	honorific	honorific
+kaikki	respectful	honorific
+kaikki	humble	humble
+kaikki	deferential	humble
+kaikki	polite	polite
+kaikki	formal	formal
+kaikki	informal	informal
+kaikki	colloquial	informal
+kaikki	familiar	informal
+kaikki	literary	literary
+kaikki	poetic	literary
+kaikki	archaic	archaic
+kaikki	obsolete	archaic
+kaikki	dated	dated
+kaikki	historical	archaic
+kaikki	slang	slang
+kaikki	vulgar	vulgar
+kaikki	derogatory	derogatory
+kaikki	offensive	derogatory
+kaikki	euphemistic	euphemistic
+kaikki	humorous	humorous
+kaikki	childish	childish
+kaikki	rare	rare
+kaikki	uncommon	rare
+krdict	(높임말로)	honorific
+krdict	(높이는 말로)	honorific
+krdict	(조금 높이는 말로)	honorific
+krdict	(낮추는 말로)	humble
+krdict	(낮춤말로)	humble
+ejdict	話	informal
+ejdict	文	literary
+ejdict	古	archaic
+ejdict	俗	slang

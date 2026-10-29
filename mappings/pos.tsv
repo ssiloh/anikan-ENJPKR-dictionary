@@ -1,0 +1,89 @@
+# source	raw	common	(JMdict 활용 부류는 코드에서 raw 엔티티를 그대로 infl_class로 둔다)
+jmdict	n	noun
+jmdict	n-adv	noun
+jmdict	n-t	noun
+jmdict	n-suf	suffix
+jmdict	n-pref	prefix
+jmdict	pn	pron
+jmdict	adj-i	adj
+jmdict	adj-ix	adj
+jmdict	adj-na	adj-na
+jmdict	adj-no	noun
+jmdict	adj-pn	det
+jmdict	adj-f	noun
+jmdict	adj-t	adj
+jmdict	adj-ku	adj
+jmdict	adj-shiku	adj
+jmdict	adj-nari	adj
+jmdict	adv	adv
+jmdict	adv-to	adv
+jmdict	aux	aux
+jmdict	aux-v	aux
+jmdict	aux-adj	aux
+jmdict	conj	conj
+jmdict	cop	copula
+jmdict	ctr	suffix
+jmdict	exp	phrase
+jmdict	int	interj
+jmdict	num	num
+jmdict	pref	prefix
+jmdict	prt	particle
+jmdict	suf	suffix
+jmdict	unc	
+jmdict	v-unspec	verb
+jmdict	vi	
+jmdict	vt	
+krdict	명사	noun
+krdict	의존 명사	noun
+krdict	대명사	pron
+krdict	수사	num
+krdict	조사	particle
+krdict	동사	verb
+krdict	보조 동사	verb
+krdict	형용사	adj
+krdict	보조 형용사	adj
+krdict	관형사	det
+krdict	부사	adv
+krdict	감탄사	interj
+krdict	접사	affix
+krdict	어미	suffix
+krdict	품사 없음	
+krdict	관용구	idiom
+krdict	속담	proverb
+krdict	구	phrase
+krdict	문법·표현	grammar
+kaikki	noun	noun
+kaikki	verb	verb
+kaikki	adj	adj
+kaikki	adv	adv
+kaikki	pron	pron
+kaikki	num	num
+kaikki	det	det
+kaikki	adnominal	det
+kaikki	particle	particle
+kaikki	postp	particle
+kaikki	conj	conj
+kaikki	intj	interj
+kaikki	prefix	prefix
+kaikki	suffix	suffix
+kaikki	affix	affix
+kaikki	infix	affix
+kaikki	interfix	affix
+kaikki	combining_form	affix
+kaikki	root	affix
+kaikki	counter	suffix
+kaikki	phrase	phrase
+kaikki	proverb	proverb
+kaikki	name	name
+kaikki	contraction	phrase
+kaikki	character	
+kaikki	romanization	
+kaikki	syllable	
+kaikki	punct	
+kaikki	symbol	
+kaikki	soft-redirect	
+wordnet	n	noun
+wordnet	v	verb
+wordnet	a	adj
+wordnet	s	adj
+wordnet	r	adv
