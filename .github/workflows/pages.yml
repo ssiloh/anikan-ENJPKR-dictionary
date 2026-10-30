@@ -1,0 +1,47 @@
+name: pages
+# 릴리스에 올린 DB를 받아 슬림 데이터를 만들고 GitHub Pages에 배포한다. 원본 사전(한국어기초사전)은 CI에서 받을 수 없어 릴리스 DB를 입력으로 쓴다.
+# 공개 저장소의 Pages 사이트는 누구나 볼 수 있다. 출처 표시(ATTRIBUTION)는 화면 하단 링크와 #/about 이 맡는다.
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "DB를 받을 릴리스 태그"
+        default: "2026.11.0"
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 릴리스 DB 받기
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p out
+          gh release download "${{ inputs.release }}" -p 'anikan-*.sqlite.gz' -D out
+          gunzip out/anikan-*.sqlite.gz
+          mv out/anikan-*.sqlite out/anikan.sqlite
+      - name: 슬림 데이터와 화면 만들기
+        run: |
+          python -m anikan.export.slim --out out/site/data
+          python -m anikan.export.site
+      - name: 검색 열쇠 대조 시험 (파이썬 ↔ JS)
+        run: python -m unittest tests.test_units tests.test_slim tests.test_js_parity tests.test_slim_regression
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out/site
+      - id: deployment
+        uses: actions/deploy-pages@v4
