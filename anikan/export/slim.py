@@ -262,14 +262,18 @@ def run(db_path, out_dir, with_rule_forms=True, min_conf=0.7, top_per_lang=8, mi
         text = "{" + ",".join(parts) + "}"
         (out_dir / "lex" / f"{s}.json").write_text(text, encoding="utf-8")
         sizes["lex"].append(len(text.encode("utf-8")))
-    rank_of = lambda hit: KIND_RANK[json.loads(hit)[1]]
+    def rank_score(h):
+        """같은 종류의 일치끼리는 점수순. 활용형 일치에서는 경어·정중 표제어를 앞에 둔다(드세요 → 들다보다 드시다)."""
+        v = info[include[h[0] - 1]]
+        return v[7] + (100 if h[1] in (4, 5) and v[5] in ("honorific", "humble", "polite") else 0)
+
     for s in range(n_idx):
         by_key = defaultdict(list)
         for key, hit in tmp.execute("SELECT key, hit FROM idx WHERE shard = ?", (s,)):
             by_key[key].append(json.loads(hit))
         obj = {}
         for key, hits in by_key.items():
-            hits.sort(key=lambda h: (KIND_RANK[h[1]], -info[include[h[0] - 1]][7]))
+            hits.sort(key=lambda h: (KIND_RANK[h[1]], -rank_score(h)))
             obj[key] = hits[:MAX_HITS_PER_KEY]
         text = dumps(obj)
         (out_dir / "idx" / f"{s}.json").write_text(text, encoding="utf-8")
