@@ -37,5 +37,13 @@ python -m anikan.search 學校            # 구자체·한자 → 学校 · 학�
 | `forms/{ja,ko}.tsv` | 활용·경어 색인 |
 | `stats.md` | 원본별 개수, 방법별 연결 수, 덮는 비율, 활용 생성 정확도 |
 
+### 웹용 슬림 데이터 (정적 호스팅)
+
+```
+python -m anikan.export.slim           # out/anikan.sqlite → out/site/data/ (약 224 MB, 파일 2,048개 + manifest.json, 약 9분)
+```
+표제어 상세(`lex/`)와 검색 색인(`idx/`)을 JSON 샤드로 나눈 것으로, 브라우저는 검색어의 FNV-1a 해시로 색인 샤드 하나 → 표제어 샤드 하나만 받는다(조회 1회 gzip 약 75 KB).
+`en_pivot`·WordNet concept·`extra`는 뺐고 예문은 뜻마다 3개까지 넣었다. 자세한 구조는 `manifest.json`의 `legend`.
+
 결과 데이터는 git에 넣지 않고 GitHub Releases에 올린다. 라이선스: 데이터 **CC BY-SA 4.0**, 코드 **MIT**.
 출처 표시와 원본 라이선스는 [ATTRIBUTION.md](ATTRIBUTION.md), `LICENSES/`.
