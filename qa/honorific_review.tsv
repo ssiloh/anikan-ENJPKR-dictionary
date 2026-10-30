@@ -1,0 +1,18 @@
+lang	plain	honorific	type	reason
+ko	주다	드리다	humble	유형 차이(검증은 통과): 원본 honorific
+ko	묻다	여쭈다	humble	원본 경어 표시 없음: None
+ko	묻다	여쭙다	humble	원본 경어 표시 없음: None
+ko	물어보다	여쭈어보다	humble	유형 차이(검증은 통과): 원본 honorific
+ko	만나다	뵙다	humble	원본 경어 표시 없음: None
+ko	찾아가다	찾아뵙다	humble	원본 경어 표시 없음: None
+ko	말하다	말씀하시다	honorific	표제어를 찾지 못함
+ko	말하다	말씀드리다	humble	원본 경어 표시 없음: None
+ko	데리다	모시다	humble	유형 차이(검증은 통과): 원본 honorific
+ko	부탁하다	부탁드리다	humble	표제어를 찾지 못함
+ko	사람	분	honorific	원본 경어 표시 없음: None
+ko	나	저	humble	원본 경어 표시 없음: None
+ko	술	약주	honorific	원본 경어 표시 없음: None
+ja	着る	お召しになる	honorific	표제어를 찾지 못함
+ja	死ぬ	お亡くなりになる	honorific	표제어를 찾지 못함
+ja	分かる	承知する	humble	원본 경어 표시 없음: None
+ja	私	わたくし	humble	원본 경어 표시 없음: None

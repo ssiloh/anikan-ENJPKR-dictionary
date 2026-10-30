@@ -1,0 +1,77 @@
+# 핵심 경어 대응표 (이 리포가 작성, 결과 데이터와 같은 라이선스). 각 줄은 build 때 원본(JMdict hon/hum, 기초사전 높임/낮춤 표시)과 교차 검증하고 어긋나면 qa/honorific_review.tsv에 남긴다.
+# lang	기본형	경어형	유형(honorific|humble|polite)	메모
+ko	먹다	드시다	honorific	
+ko	먹다	잡수시다	honorific	
+ko	마시다	드시다	honorific	
+ko	자다	주무시다	honorific	
+ko	있다	계시다	honorific	존재(사람)
+ko	주다	드리다	humble	받는 사람이 윗사람
+ko	묻다	여쭈다	humble	질문
+ko	묻다	여쭙다	humble	질문
+ko	물어보다	여쭈어보다	humble	
+ko	보다	뵙다	humble	윗사람을 만나다
+ko	만나다	뵙다	humble	
+ko	찾아가다	찾아뵙다	humble	
+ko	말하다	말씀하시다	honorific	
+ko	말하다	말씀드리다	humble	
+ko	죽다	돌아가시다	honorific	
+ko	아프다	편찮으시다	honorific	
+ko	데리다	모시다	humble	
+ko	부탁하다	부탁드리다	humble	
+ko	말	말씀	honorific	
+ko	집	댁	honorific	
+ko	이름	성함	honorific	
+ko	나이	연세	honorific	
+ko	밥	진지	honorific	
+ko	병	병환	honorific	
+ko	생일	생신	honorific	
+ko	사람	분	honorific	
+ko	나	저	humble	
+ko	우리	저희	humble	
+ko	아버지	아버님	honorific	
+ko	어머니	어머님	honorific	
+ko	부모	부모님	honorific	
+ko	선생	선생님	honorific	
+ko	술	약주	honorific	
+ja	食べる	召し上がる	honorific	
+ja	食べる	いただく	humble	
+ja	飲む	召し上がる	honorific	
+ja	飲む	いただく	humble	
+ja	行く	いらっしゃる	honorific	
+ja	行く	参る	humble	
+ja	行く	伺う	humble	
+ja	来る	いらっしゃる	honorific	
+ja	来る	おいでになる	honorific	
+ja	来る	お見えになる	honorific	
+ja	来る	参る	humble	
+ja	居る	いらっしゃる	honorific	いる
+ja	居る	おる	humble	いる
+ja	言う	おっしゃる	honorific	
+ja	言う	申す	humble	
+ja	言う	申し上げる	humble	
+ja	見る	ご覧になる	honorific	
+ja	見る	拝見する	humble	
+ja	為る	なさる	honorific	する
+ja	為る	致す	humble	する
+ja	呉れる	下さる	honorific	くれる
+ja	貰う	頂く	humble	もらう
+ja	上げる	差し上げる	humble	あげる
+ja	知る	ご存じ	honorific	
+ja	知る	存じる	humble	
+ja	会う	お目にかかる	humble	
+ja	聞く	伺う	humble	
+ja	聞く	承る	humble	
+ja	思う	存じる	humble	
+ja	寝る	お休みになる	honorific	
+ja	着る	お召しになる	honorific	
+ja	訪ねる	伺う	humble	
+ja	借りる	拝借する	humble	
+ja	読む	拝読する	humble	
+ja	死ぬ	お亡くなりになる	honorific	
+ja	分かる	承知する	humble	
+ja	家	お宅	honorific	
+ja	名前	お名前	honorific	
+ja	人	方	honorific	
+ja	私	わたくし	humble	
+ja	父	お父さん	honorific	
+ja	母	お母さん	honorific	
