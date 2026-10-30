@@ -37,5 +37,24 @@ python -m anikan.search 學校            # 구자체·한자 → 学校 · 학�
 | `forms/{ja,ko}.tsv` | 활용·경어 색인 |
 | `stats.md` | 원본별 개수, 방법별 연결 수, 덮는 비율, 활용 생성 정확도 |
 
+### 웹용 슬림 데이터 (정적 호스팅)
+
+```
+python -m anikan.export.slim           # out/anikan.sqlite → out/site/data/ (약 224 MB, 파일 2,048개 + manifest.json, 약 9분)
+```
+표제어 상세(`lex/`)와 검색 색인(`idx/`)을 JSON 샤드로 나눈 것으로, 브라우저는 검색어의 FNV-1a 해시로 색인 샤드 하나 → 표제어 샤드 하나만 받는다(조회 1회 gzip 약 75 KB).
+`en_pivot`·WordNet concept·`extra`는 뺐고 예문은 뜻마다 3개까지 넣었다. 자세한 구조는 `manifest.json`의 `legend`.
+
+### 개인용 웹 사전
+
+```
+python -m anikan.export.slim     # 슬림 데이터 (위)
+python -m anikan.export.site     # web/ 의 화면 + 출처 문서를 out/site/ 에 조립
+python -m anikan.serve           # http://localhost:8000  (폰에서는 Tailscale 주소:8000)
+```
+서버 코드 없이 정적 파일만 쓰고, 브라우저가 검색어 해시로 필요한 샤드만 받는다. 검색 열쇠 규칙(`web/keys.js`)은 파이썬 구현과 글자까지 같아야 해서
+`python -m unittest tests.test_js_parity`가 실제 색인 표기 약 7천 개로 대조한다(node 필요). 어떤 정적 호스팅에도 `out/site/`를 그대로 올리면 된다
+(공개 호스팅이면 모든 화면에서 출처 표시 조건을 지킬 것 — 화면 하단 링크와 `#/about`).
+
 결과 데이터는 git에 넣지 않고 GitHub Releases에 올린다. 라이선스: 데이터 **CC BY-SA 4.0**, 코드 **MIT**.
 출처 표시와 원본 라이선스는 [ATTRIBUTION.md](ATTRIBUTION.md), `LICENSES/`.
